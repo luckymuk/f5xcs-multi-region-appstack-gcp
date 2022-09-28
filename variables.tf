@@ -10,12 +10,12 @@ variable "adminUserName" {
 variable "projectName" {
   type        = string
   description = "REQUIRED: GCP project: "
-  default     = "project-name"
+  default     = "f5-gcs-4261-sales-na-servprov"
 }
 variable "tenant" {
   type        = string
   description = "REQUIRED: GCP project: "
-  default     = "xc tenant id"
+  default     = "f5-amer-sp"
 }
 variable "stack_name" {
   type        = string
@@ -26,22 +26,22 @@ variable "stack_name" {
 variable "gcp_region_one" {
   type        = string
   description = "REQUIRED: GCP Region: "
-  default     = "us-east4"
+  default     = "us-west1"
 }
 variable "gcp_zone_one_a" {
   type        = string
   description = "REQUIRED: GCP Region: "
-  default     = "us-east4-a"
+  default     = "us-west1-a"
 }
 variable "gcp_zone_one_b" {
   type        = string
   description = "REQUIRED: GCP Region: "
-  default     = "us-east4-b"
+  default     = "us-west1-b"
 }
 variable "gcp_zone_one_c" {
   type        = string
   description = "REQUIRED: GCP Region: "
-  default     = "us-east4-c"
+  default     = "us-west1-c"
 }
 variable "gcp_region_two" {
   type        = string
@@ -63,26 +63,26 @@ variable "gcp_zone_two_c" {
   description = "REQUIRED: GCP Region: "
   default     = "us-west2-c"
 }
-variable "gcp_region_three" {
-  type        = string
-  description = "REQUIRED: GCP Region: "
-  default     = "europe-west3"
-}
-variable "gcp_zone_three_a" {
-  type        = string
-  description = "REQUIRED: GCP Region: "
-  default     = "europe-west3-a"
-}
-variable "gcp_zone_three_b" {
-  type        = string
-  description = "REQUIRED: GCP Region: "
-  default     = "europe-west3-b"
-}
-variable "gcp_zone_three_c" {
-  type        = string
-  description = "REQUIRED: GCP Region: "
-  default     = "europe-west3-c"
-}
+# variable "gcp_region_three" {
+#   type        = string
+#   description = "REQUIRED: GCP Region: "
+#   default     = "europe-west3"
+# }
+# variable "gcp_zone_three_a" {
+#   type        = string
+#   description = "REQUIRED: GCP Region: "
+#   default     = "europe-west3-a"
+# }
+# variable "gcp_zone_three_b" {
+#   type        = string
+#   description = "REQUIRED: GCP Region: "
+#   default     = "europe-west3-b"
+# }
+# variable "gcp_zone_three_c" {
+#   type        = string
+#   description = "REQUIRED: GCP Region: "
+#   default     = "europe-west3-c"
+# }
 variable "instance_type" {
   type        = string
   description = "REQUIRED: Instance Type"
@@ -104,36 +104,36 @@ variable "sshPublicKeyPath" {
 variable "api_p12_file" {
   type        = string
   description = "REQUIRED:  This is the path to the volterra API Key.  See https://volterra.io/docs/how-to/user-mgmt/credentials"
-  default     = "./api-creds.p12"
+  default     = "/Users/l.singh/Downloads/f5-amer-sp.console.ves.volterra.io.api-creds.p12"
 }
 
 variable "api_cert" {
   type        = string
   description = "REQUIRED:  This is the path to the volterra API Key.  See https://volterra.io/docs/how-to/user-mgmt/credentials"
-  default     = "./api2.cer"
+  default     = "/Users/l.singh/Downloads/f5xc.cert"
 }
 variable "api_key" {
   type        = string
   description = "REQUIRED:  This is the path to the volterra API Key.  See https://volterra.io/docs/how-to/user-mgmt/credentials"
-  default     = "./api.key"
+  default     = "/Users/l.singh/Downloads/f5xc.key"
 }
 // Required Variable
 variable "tenant_name" {
   type        = string
   description = "REQUIRED:  This is your volterra Tenant Name:  https://<tenant_name>.console.ves.volterra.io/api"
-  default     = "mr-customer"
+  default     = "https://f5-amer-sp.console.ves.volterra.io/api"
 }
 // Required Variable
 variable "namespace" {
   type        = string
   description = "REQUIRED:  This is your volterra App Namespace"
-  default     = "namespace"
+  default     = "l-singh"
 }
 // Required Variable
 variable "name" {
   type        = string
   description = "REQUIRED:  This is name for your deployment"
-  default     = "cust-provided"
+  default     = "lak-terrafrom"
 }
 
 // Required Variable
@@ -141,13 +141,13 @@ variable "xcs_tf_action" {
   default = "plan"
 }
 variable "delegated_dns_domain" {
-  default = "testdomain.com"
+  default = "amer-sp.f5demos.com"
 }
 // Required Variable
 variable "api_url" {
   type        = string
   description = "REQUIRED:  This is your volterra API url"
-  default     = "https://playground.console.ves.volterra.io/api"
+  default     = "https://f5-amer-sp.console.ves.volterra.io/api"
 }
 
 variable "gateway_type" { default = "voltstack_cluster" }
@@ -162,10 +162,10 @@ variable "gcp_cidr_two" {
   description = "REQUIRED: VNET Network CIDR"
   default     = "10.90.2.0/23"
 }
-variable "gcp_cidr_three" {
-  description = "REQUIRED: VNET Network CIDR"
-  default     = "10.90.4.0/23"
-}
+# variable "gcp_cidr_three" {
+#   description = "REQUIRED: VNET Network CIDR"
+#   default     = "10.90.4.0/23"
+# }
 
 variable "gcp_subnet_one" {
   type        = map(string)
@@ -181,13 +181,13 @@ variable "gcp_subnet_two" {
     "external" = "10.90.2.0/24"
   }
 }
-variable "gcp_subnet_three" {
-  type        = map(string)
-  description = "REQUIRED: Subnet CIDRs"
-  default = {
-    "external" = "10.90.4.0/24"
-  }
-}
+# variable "gcp_subnet_three" {
+#   type        = map(string)
+#   description = "REQUIRED: Subnet CIDRs"
+#   default = {
+#     "external" = "10.90.4.0/24"
+#   }
+# }
 
 # TAGS
 variable "tags" {

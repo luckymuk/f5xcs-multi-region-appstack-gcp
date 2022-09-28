@@ -35,23 +35,23 @@ elif [[ "$machine" == "Linux" ]]; then
   fi
 fi
 
-export VOLT_API_P12_FILE=/creds/.api-creds.p12
-export VES_P12_PASSWORD=12345678
-export GCP_PROJECT=project_name
-export GCP_ROLE_ID=xcs_gcp_vpc_role
-export GCP_ACCOUNT_ID=xcs-gcp-vpc-spn
+export VOLT_API_P12_FILE=/Users/l.singh/Downloads/f5-amer-sp.console.ves.volterra.io.api-creds.p12
+export VES_P12_PASSWORD=telus123
+export GCP_PROJECT=f5-gcs-4261-sales-na-servprov
+# export GCP_ROLE_ID=xcs_gcp_vpc_role
+# export GCP_ACCOUNT_ID=xcs-gcp-vpc-spn
 
-# Download Role Def
-# Based on https://gitlab.com/volterra.io/cloud-credential-templates/-/tree/master/gcp
-curl https://gitlab.com/volterra.io/cloud-credential-templates/-/raw/master/gcp/f5xc_gcp_vpc_role.yaml --output volterra_gcp_vpc_role.yaml
+# # Download Role Def
+# # Based on https://gitlab.com/volterra.io/cloud-credential-templates/-/tree/master/gcp
+# curl https://gitlab.com/volterra.io/cloud-credential-templates/-/raw/master/gcp/f5xc_gcp_vpc_role.yaml --output volterra_gcp_vpc_role.yaml
 
-#Create GCP Role
-gcloud iam roles create $GCP_ROLE_ID --project=$GCP_PROJECT --file=volterra_gcp_vpc_role.yaml
-# Create GCP Service Account
-gcloud iam service-accounts create $GCP_ACCOUNT_ID  --display-name=$GCP_ACCOUNT_ID --project=$GCP_PROJECT
+# #Create GCP Role
+# gcloud iam roles create $GCP_ROLE_ID --project=$GCP_PROJECT --file=volterra_gcp_vpc_role.yaml
+# # Create GCP Service Account
+# gcloud iam service-accounts create $GCP_ACCOUNT_ID  --display-name=$GCP_ACCOUNT_ID --project=$GCP_PROJECT
 
-export GCP_SVC_EMAIL=`gcloud iam service-accounts list --project=$GCP_PROJECT | grep $GCP_ACCOUNT_ID | awk '{print $2}'`
+# export GCP_SVC_EMAIL=`gcloud iam service-accounts list --project=$GCP_PROJECT | grep $GCP_ACCOUNT_ID | awk '{print $2}'`
 
-gcloud projects add-iam-policy-binding $GCP_PROJECT --member='serviceAccount:'$GCP_SVC_EMAIL'' --role=projects/$GCP_PROJECT/roles/$GCP_ROLE_ID --project=$GCP_PROJECT
+# gcloud projects add-iam-policy-binding $GCP_PROJECT --member='serviceAccount:'$GCP_SVC_EMAIL'' --role=projects/$GCP_PROJECT/roles/$GCP_ROLE_ID --project=$GCP_PROJECT
 
-gcloud iam service-accounts keys create --iam-account $GCP_SVC_EMAIL key.json --project=$GCP_PROJECT
+# gcloud iam service-accounts keys create --iam-account $GCP_SVC_EMAIL key.json --project=$GCP_PROJECT

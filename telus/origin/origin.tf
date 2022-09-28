@@ -253,15 +253,17 @@ resource "volterra_http_loadbalancer" "example" {
     dns_volterra_managed = true
     port                 = "80"
   }
+
+  ##########Mark Menger############
+
   bot_defense{
     policy {
       js_insert_all_pages{
-        javascript_location = "After <head> tag"
+        javascript_location = "AFTER_HEAD"
       }
       js_download_path = "/common.js"
       protected_app_endpoints{
-        mobile = "true"
-        http_methods = ["post"]
+        http_methods = ["Post"]
         metadata{
           name = "test"
         }
@@ -274,11 +276,38 @@ resource "volterra_http_loadbalancer" "example" {
           prefix = "/"
         }
       }
-
     }
     regional_endpoint = "US"
-
   }
+
+
+  ############Lakhwinder###############
+  # bot_defense{
+  #   policy {
+  #     js_insert_all_pages{
+  #       javascript_location = "After <head> tag"
+  #     }
+  #     js_download_path = "/common.js"
+  #     protected_app_endpoints{
+  #       mobile = "true"
+  #       http_methods = ["Mark"]
+  #       metadata{
+  #         name = "test"
+  #       }
+  #       mitigation{
+  #         block{
+  #           body = "Your request was blocked"
+  #         }
+  #       }
+  #       path{
+  #         prefix = "/"
+  #       }
+  #     }
+
+  #   }
+  #   regional_endpoint = "US"
+
+  # }
 
   app_firewall {
     name      = "acmecorp-web"
