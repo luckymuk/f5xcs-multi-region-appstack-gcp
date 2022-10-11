@@ -3,7 +3,7 @@ terraform {
   required_providers {
     volterra = {
       source  = "volterraedge/volterra"
-      version = "0.11.9"
+      version = "0.11.13"
     }
   }
 }
@@ -254,8 +254,7 @@ resource "volterra_http_loadbalancer" "example" {
     port                 = "80"
   }
 
-  ##########Mark Menger############
-
+  #########Support##############
   bot_defense{
     policy {
       js_insert_all_pages{
@@ -269,7 +268,8 @@ resource "volterra_http_loadbalancer" "example" {
         }
         mitigation{
           block{
-            body = "Your request was blocked"
+            body = "string:///VGhlIHJlcXVlc3RlZCBVUkwgd2FzIHJlamVjdGVkLiBQbGVhc2UgY29uc3VsdCB3aXRoIHlvdXIgYWRtaW5pc3RyYXRvci4="
+            status = "OK"
           }
         }
         path{
@@ -279,6 +279,32 @@ resource "volterra_http_loadbalancer" "example" {
     }
     regional_endpoint = "US"
   }
+  
+  ##########Mark Menger############
+
+  # bot_defense{
+  #   policy {
+  #     js_insert_all_pages{
+  #       javascript_location = "AFTER_HEAD"
+  #     }
+  #     js_download_path = "/common.js"
+  #     protected_app_endpoints{
+  #       http_methods = ["Post"]
+  #       metadata{
+  #         name = "test"
+  #       }
+  #       mitigation{
+  #         block{
+  #           body = "Your request was blocked"
+  #         }
+  #       }
+  #       path{
+  #         prefix = "/"
+  #       }
+  #     }
+  #   }
+  #   regional_endpoint = "US"
+  # }
 
 
   ############Lakhwinder###############
