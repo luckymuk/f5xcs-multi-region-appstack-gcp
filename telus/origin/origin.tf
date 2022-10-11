@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.12"
+  #required_version = ">= 0.12"
   required_providers {
     volterra = {
       source  = "volterraedge/volterra"
@@ -255,30 +255,30 @@ resource "volterra_http_loadbalancer" "example" {
   }
 
   #########Support##############
-  bot_defense{
-    policy {
-      js_insert_all_pages{
-        javascript_location = "AFTER_HEAD"
-      }
-      js_download_path = "/common.js"
-      protected_app_endpoints{
-        http_methods = ["Post"]
-        metadata{
-          name = "test"
-        }
-        mitigation{
-          block{
-            body = "string:///VGhlIHJlcXVlc3RlZCBVUkwgd2FzIHJlamVjdGVkLiBQbGVhc2UgY29uc3VsdCB3aXRoIHlvdXIgYWRtaW5pc3RyYXRvci4="
-            status = "OK"
-          }
-        }
-        path{
-          prefix = "/"
-        }
-      }
-    }
-    regional_endpoint = "US"
-  }
+  # bot_defense{
+  #   policy {
+  #     js_insert_all_pages{
+  #       javascript_location = "AFTER_HEAD"
+  #     }
+  #     js_download_path = "/common.js"
+  #     protected_app_endpoints{
+  #       http_methods = ["Post"]
+  #       metadata{
+  #         name = "test"
+  #       }
+  #       mitigation{
+  #         block{
+  #           body = "string:///VGhlIHJlcXVlc3RlZCBVUkwgd2FzIHJlamVjdGVkLiBQbGVhc2UgY29uc3VsdCB3aXRoIHlvdXIgYWRtaW5pc3RyYXRvci4="
+  #           status = "OK"
+  #         }
+  #       }
+  #       path{
+  #         prefix = "/"
+  #       }
+  #     }
+  #   }
+  #   regional_endpoint = "US"
+  # }
   
   ##########Mark Menger############
 
@@ -308,32 +308,34 @@ resource "volterra_http_loadbalancer" "example" {
 
 
   ############Lakhwinder###############
-  # bot_defense{
-  #   policy {
-  #     js_insert_all_pages{
-  #       javascript_location = "After <head> tag"
-  #     }
-  #     js_download_path = "/common.js"
-  #     protected_app_endpoints{
-  #       mobile = "true"
-  #       http_methods = ["Mark"]
-  #       metadata{
-  #         name = "test"
-  #       }
-  #       mitigation{
-  #         block{
-  #           body = "Your request was blocked"
-  #         }
-  #       }
-  #       path{
-  #         prefix = "/"
-  #       }
-  #     }
+  bot_defense{
+    policy {
+      js_insert_all_pages{
+        javascript_location = "After <head> tag"
+      }
+      js_download_path = "/common.js"
+      protected_app_endpoints{
+        #mobile = "true"
+        http_methods = ["Post"]
+        metadata{
+          name = "test"
+        }
+        mitigation{
+          block{
+            #body = "Your request was blocked"
+            body = "string:///VGhlIHJlcXVlc3RlZCBVUkwgd2FzIHJlamVjdGVkLiBQbGVhc2UgY29uc3VsdCB3aXRoIHlvdXIgYWRtaW5pc3RyYXRvci4="	
+            status = "OK"
+          }
+        }
+        path{
+          prefix = "/"
+        }
+      }
 
-  #   }
-  #   regional_endpoint = "US"
+    }
+    regional_endpoint = "US"
 
-  # }
+  }
 
   app_firewall {
     name      = "acmecorp-web"
