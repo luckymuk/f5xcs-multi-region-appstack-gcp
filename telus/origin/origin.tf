@@ -111,13 +111,26 @@ resource "volterra_http_loadbalancer" "example" {
 
   // One of the arguments from this list "do_not_advertise advertise_on_public_default_vip advertise_on_public advertise_custom" must be set
 
-  advertise_on_public {
-    public_ip {
-      name      = "telus-test"
-      namespace = "l-singh"
-      # tenant    = "f5-amer-sp"
+
+advertise_custom{
+  advertise_where{
+    site{
+      network = "SITE_NETWORK_OUTSIDE"
+      site{
+        name = "ce-gke-telus"
+        namespace = "system"
+      }
     }
   }
+}
+  # advertise_on_public {
+  #   public_ip {
+  #     name      = "telus-test"
+  #     namespace = "l-singh"
+  #     # tenant    = "f5-amer-sp"
+  #   }
+  # }
+  # advertise_on_public_default_vip = true
 
   // One of the arguments from this list "api_definitions disable_api_definition api_definition" must be set
 
@@ -245,40 +258,47 @@ resource "volterra_http_loadbalancer" "example" {
   #   // One of the arguments from this list "default_temporary_blocking_parameters temporary_user_blocking" must be set
   #   default_temporary_blocking_parameters = true
   # }
-  domains = ["foo.amer-sp.f5demos.com"]
+  domains = ["foo.default","foo.kundalkanthi.com"]
 
   // One of the arguments from this list "http https_auto_cert https" must be set
 
   http {
-    dns_volterra_managed = true
+    dns_volterra_managed = false
     port                 = "80"
   }
 
+  default_route_pools{
+    pool{
+      name      = "acmecorp-web"
+      namespace = "l-singh"
+    }
+  }
+
   #########Support##############
-  # bot_defense{
-  #   policy {
-  #     js_insert_all_pages{
-  #       javascript_location = "AFTER_HEAD"
-  #     }
-  #     js_download_path = "/common.js"
-  #     protected_app_endpoints{
-  #       http_methods = ["Post"]
-  #       metadata{
-  #         name = "test"
-  #       }
-  #       mitigation{
-  #         block{
-  #           body = "string:///VGhlIHJlcXVlc3RlZCBVUkwgd2FzIHJlamVjdGVkLiBQbGVhc2UgY29uc3VsdCB3aXRoIHlvdXIgYWRtaW5pc3RyYXRvci4="
-  #           status = "OK"
-  #         }
-  #       }
-  #       path{
-  #         prefix = "/"
-  #       }
-  #     }
-  #   }
-  #   regional_endpoint = "US"
-  # }
+  bot_defense{
+    policy {
+      js_insert_all_pages{
+        javascript_location = "AFTER_HEAD"
+      }
+      js_download_path = "/common.js"
+      protected_app_endpoints{
+        http_methods = ["['GET', 'POST', 'DELETE']"]
+        metadata{
+          name = "test"
+        }
+        mitigation{
+          block{
+            body = "string:///VGhlIHJlcXVlc3RlZCBVUkwgd2FzIHJlamVjdGVkLiBQbGVhc2UgY29uc3VsdCB3aXRoIHlvdXIgYWRtaW5pc3RyYXRvci4="
+            status = "OK"
+          }
+        }
+        path{
+          prefix = "/"
+        }
+      }
+    }
+    regional_endpoint = "US"
+  }
   
   ##########Mark Menger############
 
@@ -293,11 +313,6 @@ resource "volterra_http_loadbalancer" "example" {
   #       metadata{
   #         name = "test"
   #       }
-  #       mitigation{
-  #         block{
-  #           body = "Your request was blocked"
-  #         }
-  #       }
   #       path{
   #         prefix = "/"
   #       }
@@ -308,34 +323,34 @@ resource "volterra_http_loadbalancer" "example" {
 
 
   ############Lakhwinder###############
-  bot_defense{
-    policy {
-      js_insert_all_pages{
-        javascript_location = "After <head> tag"
-      }
-      js_download_path = "/common.js"
-      protected_app_endpoints{
-        #mobile = "true"
-        http_methods = ["Post"]
-        metadata{
-          name = "test"
-        }
-        mitigation{
-          block{
-            #body = "Your request was blocked"
-            body = "string:///VGhlIHJlcXVlc3RlZCBVUkwgd2FzIHJlamVjdGVkLiBQbGVhc2UgY29uc3VsdCB3aXRoIHlvdXIgYWRtaW5pc3RyYXRvci4="	
-            status = "OK"
-          }
-        }
-        path{
-          prefix = "/"
-        }
-      }
+  # bot_defense{
+  #   policy {
+  #     js_insert_all_pages{
+  #       javascript_location = "After <head> tag"
+  #     }
+  #     js_download_path = "/common.js"
+  #     protected_app_endpoints{
+  #       #mobile = "true"
+  #       http_methods = ["Post"]
+  #       metadata{
+  #         name = "test"
+  #       }
+  #       mitigation{
+  #         block{
+  #           #body = "Your request was blocked"
+  #           body = "string:///VGhlIHJlcXVlc3RlZCBVUkwgd2FzIHJlamVjdGVkLiBQbGVhc2UgY29uc3VsdCB3aXRoIHlvdXIgYWRtaW5pc3RyYXRvci4="	
+  #           status = "OK"
+  #         }
+  #       }
+  #       path{
+  #         prefix = "/"
+  #       }
+  #     }
 
-    }
-    regional_endpoint = "US"
+  #   }
+  #   regional_endpoint = "US"
 
-  }
+  # }
 
   app_firewall {
     name      = "acmecorp-web"
