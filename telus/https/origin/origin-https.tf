@@ -14,6 +14,12 @@ provider "volterra" {
   # api_ca_cert  = "${var.api_ca_cert}"
   url          = "${var.api_url}"
 }
+data "local_file" "cert" {
+  filename = "${path.module}/cert/cert.pem"
+}
+data "local_file" "key" {
+  filename = "${path.module}/cert/key.pem"
+}
 resource "volterra_origin_pool" "example" {
   name                   = "acmecorp-web"
   namespace              = "l-singh"
@@ -137,9 +143,24 @@ advertise_custom{
 
   // One of the arguments from this list "http https_auto_cert https" must be set
 
-  http {
-    dns_volterra_managed = false
-    port                 = "80"
+  https {
+    #dns_volterra_managed = false
+    port                 = "443"
+    http_redirect        = true
+    tls_parameters {
+      tls_certificates{
+        certificate_url = format("string:///%s", data.local_file.cert.content_base64)
+        private_key{
+        clear_secret_info{
+          url = format("string:///%s", data.local_file.key.content_base64)
+       }
+      }
+      }
+      tls_config{
+
+      }
+
+    }
   }
 
   default_route_pools{
